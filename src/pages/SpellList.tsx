@@ -64,14 +64,14 @@ export default function SpellList() {
       <div className="flex mb-4 justify-center gap-3 items-center lg:flex-row md:flex-row flex-col">
         <input
           type="text"
-          className="p-3 shadow-lg rounded-2xl shadow-blue-300 font-mono"
-          placeholder="Search spells..."
+          className="p-3 shadow-lg rounded-2xl shadow-blue-300 font-mono w-full lg:w-1/3"
+          placeholder="Search spells...🔍"
           value={searchQuery}
           onChange={handleSearch}
         />
 
         <Link to="/favorites">
-          <Button fontFamily="monospace">View Favorites</Button>
+          <Button fontFamily="monospace">View Your Favorite Lists</Button>
         </Link>
       </div>
       {isLoading ? (
@@ -87,7 +87,7 @@ export default function SpellList() {
       ) : isError ? (
         <Text>Error fetching data</Text>
       ) : filteredSpells?.length === 0 ? (
-        <Text>No search results found</Text>
+        <Text fontFamily="monospace" fontSize="xl">Oops! No search results found.😭😭</Text>
       ) : (
         <SimpleGrid columns={[1, 3, 4, 6]} spacing={6}>
           {filteredSpells?.map((spell: Spell) => (
@@ -100,7 +100,7 @@ export default function SpellList() {
                   {spell.name}
                 </Box>
                 <Box fontSize="sm" fontWeight="light" textAlign="center">
-                  Level: {spell.level}
+                  Level:{spell.level}
                 </Box>
               </Link>
 

@@ -44,7 +44,7 @@ const Favorites = () => {
   return (
     <>
       <Toaster position="top-right" />
-      <span className="text-3xl text-center flex justify-center items-center gap-10">
+      <span className="text-3xl text-center flex justify-center items-center gap-10 font-mono">
         <FaLongArrowAltLeft
           onClick={goBack}
           className="cursor-pointer text-blue-800"
@@ -53,7 +53,7 @@ const Favorites = () => {
         Favorites List
       </span>
       {favorites.length === 0 ? (
-        <p className="mt-4">Oops! No favorites list found...</p>
+        <p className="mt-4 font-mono text-xl">Oops! No favorites list found.😭😭</p>
       ) : (
         <SimpleGrid columns={[1, 3, 4, 6]} spacing={6} marginTop={4}>
           {favorites.map((favorite: Favorite) => {
