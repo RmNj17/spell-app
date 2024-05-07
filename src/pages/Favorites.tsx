@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaLongArrowAltLeft } from "react-icons/fa";
 
 interface Favorite {
-  index: string; 
+  index: string;
 }
 
 const Favorites = () => {
@@ -25,20 +25,24 @@ const Favorites = () => {
         />
         Favorites List
       </span>
-      <SimpleGrid columns={[1, 3, 4, 6]} spacing={6} marginTop={4}>
-        {favorites.map((favorite: Favorite) => {
-          return (
-            <div
-              key={favorite.index}
-              className="p-3 hover:bg-black hover:text-white shadow-xl rounded-lg bg-sky-200 flex flex-col justify-center font-mono items-center gap-1"
-            >
-              <li className="list-none" key={favorite.index}>
-                <Link to={`/spell/${favorite.index}`}>{favorite.index}</Link>
-              </li>
-            </div>
-          );
-        })}
-      </SimpleGrid>
+      {favorites.length === 0 ? (
+        <p className="mt-4">Oops ! No favorites list found...</p>
+      ) : (
+        <SimpleGrid columns={[1, 3, 4, 6]} spacing={6} marginTop={4}>
+          {favorites.map((favorite: Favorite) => {
+            return (
+              <div
+                key={favorite.index}
+                className="p-3 hover:bg-black hover:text-white shadow-xl rounded-lg bg-sky-200 flex flex-col justify-center font-mono items-center gap-1"
+              >
+                <li className="list-none" key={favorite.index}>
+                  <Link to={`/spell/${favorite.index}`}>{favorite.index}</Link>
+                </li>
+              </div>
+            );
+          })}
+        </SimpleGrid>
+      )}
     </>
   );
 };
