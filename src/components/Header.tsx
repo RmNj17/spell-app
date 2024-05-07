@@ -1,12 +1,9 @@
-import React from "react";
-import { Box, Text } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
-const Header: React.FC = () => {
+export default function Header() {
   return (
-    <Box mb={8} textAlign="center">
-      <Text fontSize="4xl">Spell Listing App</Text>
-    </Box>
+    <h2 className="text-3xl text-white font-extrabold font-mono border text-center p-8 bg-black flex justify-center ">
+      <Link to="/">Spell Listing App</Link>
+    </h2>
   );
-};
-
-export default Header;
+}

@@ -1,101 +1,97 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, useEffect } from "react";
-import { Box } from "@chakra-ui/react";
-import axios from "axios";
-import { Spell } from "../types";
+import { useParams } from "react-router-dom";
+import { useQuery } from "react-query";
+import { fetchSpellDetail } from "../api";
+import { Box, Spinner, Flex } from "@chakra-ui/react";
+import { FaLongArrowAltLeft } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-interface SpellDetailsProps {
-  spell: Spell | null;
-}
+export default function SpellDetail() {
+  const navigate = useNavigate();
+  const goBack = () => {
+    navigate(-1);
+  };
+  const { spellIndex } = useParams<{ spellIndex?: string }>();
+  const {
+    data: spell,
+    isLoading,
+    isError,
+  } = useQuery(["spell", spellIndex], () => fetchSpellDetail(spellIndex), {
+    enabled: !!spellIndex,
+    staleTime: Infinity,
+  });
 
-const SpellDetails: React.FC<SpellDetailsProps> = ({ spell }) => {
-  const [spellDetails, setSpellDetails] = useState<any | null>(null);
-  const [loading, setLoading] = useState(false);
+  if (!spellIndex || isLoading) {
+    return (
+      <Flex justify="center" align="center" height="100vh">
+        <Spinner size="xl" thickness="4px" speed="0.65s" color="blue.500" />
+      </Flex>
+    );
+  }
 
-  useEffect(() => {
-    const fetchSpellDetails = async () => {
-      if (spell) {
-        setLoading(true);
-        try {
-          const response = await axios.get(
-            `https://www.dnd5eapi.co${spell.url}`
-          );
-          setSpellDetails(response.data);
-          setLoading(false);
-        } catch (error) {
-          console.error("Error fetching spell details:", error);
-          setLoading(false);
-        }
-      } else {
-        // If no spell is selected, reset spell details
-        setSpellDetails(null);
-      }
-    };
-
-    fetchSpellDetails();
-  }, [spell]);
+  if (isError || !spell) {
+    return <div>Error fetching data</div>;
+  }
 
   return (
-    <Box>
-      {loading ? (
-        <p>Loading spell details...</p>
-      ) : spellDetails ? (
-        <div>
-          <h2>{spellDetails.name}</h2>
-          <p>
-            <strong>Description:</strong> {spellDetails.desc.join("\n\n")}
-          </p>
+    <Box className="flex justify-center" fontFamily="monospace">
+      <div className="text-center shadow-2xl p-3 rounded-md flex flex-col max-w-[600px]">
+        <span className="text-3xl font-extrabold">
+          <FaLongArrowAltLeft
+            onClick={goBack}
+            className="cursor-pointer text-blue-800"
+            size={36}
+          />
+          {spell?.name}
+        </span>
+        <p className="border shadow-xl rounded-md p-2 mb-2">
+          <strong>Description:</strong> {spell?.desc.join("\n\n")}
+        </p>
+        <div className="shadow-xl rounded-2xl bg-black text-white font-medium px-8 w-fit mx-auto ">
           <p>
             <strong>Higher Levels:</strong>{" "}
-            {spellDetails.higher_level?.join("\n\n")}
+            {spell?.higher_level?.join("\n\n") || "N/A"}
           </p>
           <p>
-            <strong>Range:</strong> {spellDetails.range}
+            <strong>Range:</strong> {spell?.range}
           </p>
           <p>
-            <strong>Components:</strong> {spellDetails.components.join(", ")}
+            <strong>Components:</strong> {spell?.components.join(", ")}
           </p>
           <p>
-            <strong>Material:</strong> {spellDetails.material}
+            <strong>Material:</strong> {spell?.material}
           </p>
           <p>
-            <strong>Ritual:</strong> {spellDetails.ritual ? "Yes" : "No"}
+            <strong>Ritual:</strong> {spell?.ritual ? "Yes" : "No"}
           </p>
           <p>
-            <strong>Duration:</strong> {spellDetails.duration}
+            <strong>Duration:</strong> {spell?.duration}
           </p>
           <p>
             <strong>Concentration:</strong>{" "}
-            {spellDetails.concentration ? "Yes" : "No"}
+            {spell?.concentration ? "Yes" : "No"}
           </p>
           <p>
-            <strong>Casting Time:</strong> {spellDetails.casting_time}
+            <strong>Casting Time:</strong> {spell?.casting_time}
           </p>
           <p>
-            <strong>Level:</strong> {spellDetails.level}
+            <strong>Level:</strong> {spell?.level}
           </p>
           <p>
-            <strong>Attack Type:</strong> {spellDetails.attack_type}
+            <strong>Attack Type:</strong> {spell?.attack_type || "N/A"}
           </p>
           <p>
-            <strong>School:</strong> {spellDetails.school?.name}
+            <strong>School:</strong> {spell?.school?.name || "N/A"}
           </p>
           <p>
             <strong>Classes:</strong>{" "}
-            {spellDetails.classes.map((cls: any) => cls.name).join(", ")}
+            {spell?.classes.map((cls) => cls?.name).join(", ")}
           </p>
           <p>
             <strong>Subclasses:</strong>{" "}
-            {spellDetails.subclasses
-              .map((subclass: any) => subclass.name)
-              .join(", ")}
+            {spell?.subclasses.map((subclass) => subclass?.name).join(", ")}
           </p>
         </div>
-      ) : (
-        <p>Please select a spell to view details</p>
-      )}
+      </div>
     </Box>
   );
-};
-
-export default SpellDetails;
+}

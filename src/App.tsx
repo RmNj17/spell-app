@@ -1,13 +1,23 @@
-import React from "react";
-import HomePage from "./pages/HomePage";
-import { ChakraProvider } from "@chakra-ui/react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ChakraProvider, Box } from "@chakra-ui/react";
+import SpellList from "./pages/SpellList";
+import SpellDetail from "./components/SpellDetails";
+import Header from "./components/Header";
+import Favorites from "./pages/Favorites";
 
-const App: React.FC = () => {
+export default function App() {
   return (
-    <ChakraProvider>
-      <HomePage />
-    </ChakraProvider>
+    <BrowserRouter>
+      <ChakraProvider>
+        <Header />
+        <Box p={5}>
+          <Routes>
+            <Route path="/" element={<SpellList />} />
+            <Route path="/spell/:spellIndex" element={<SpellDetail />} />
+            <Route path="/favorites" element={<Favorites />} />
+          </Routes>
+        </Box>
+      </ChakraProvider>
+    </BrowserRouter>
   );
-};
-
-export default App;
+}
