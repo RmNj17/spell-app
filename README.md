@@ -1,30 +1,57 @@
-# React + TypeScript + Vite
+# Spell Book
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Discover and explore a variety of spells from Dungeons & Dragons. Save your favorite spells and access them anytime.
 
-Currently, two official plugins are available:
+## API Reference
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+#### Get all spells
 
-## Expanding the ESLint configuration
+Base url: https://www.dnd5eapi.co/
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```http
+   https://www.dnd5eapi.co/api/spells
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+#### Get spell details
+
+```http
+  https://www.dnd5eapi.co/${url}
+```
+
+## Demo
+
+https://spell-book-app.vercel.app/
+
+## Tech Stack
+
+**Client:** React, TailwindCSS, TypeScript, Chakra UI, React-query
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/RmNj17/spell-app.git
+```
+
+Go to the project directory
+
+```bash
+  cd spell-app
+```
+
+Install dependencies
+
+```bash
+  yarn
+```
+
+Start the server
+
+```bash
+  yarn run dev
+```
+
+## Developer and designed by:
+
+- [@iamrnj](https://www.facebook.com/iamrmnj/)
