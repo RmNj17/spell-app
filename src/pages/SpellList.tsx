@@ -69,9 +69,10 @@ export default function SpellList() {
           value={searchQuery}
           onChange={handleSearch}
         />
-        <Button fontFamily="monospace">
-          <Link to="/favorites">View Favorites</Link>
-        </Button>
+
+        <Link to="/favorites">
+          <Button fontFamily="monospace">View Favorites</Button>
+        </Link>
       </div>
       {isLoading ? (
         <Flex justify="center" align="center" height="200px">

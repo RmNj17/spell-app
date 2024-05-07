@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, SimpleGrid } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaLongArrowAltLeft } from "react-icons/fa";
@@ -16,6 +16,17 @@ const Favorites = () => {
     const storedFavorites = localStorage.getItem("favorites");
     return storedFavorites ? JSON.parse(storedFavorites) : [];
   });
+
+  const sortFavoritesAlphabetically = () => {
+    const sortedFavorites = [...favorites].sort((a, b) =>
+      a.index.localeCompare(b.index)
+    );
+    setFavorites(sortedFavorites);
+  };
+
+  useEffect(() => {
+    sortFavoritesAlphabetically();
+  }, []);
 
   const goBack = () => {
     navigate(-1);
