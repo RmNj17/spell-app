@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaLongArrowAltLeft } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import toast, { Toaster } from "react-hot-toast";
+import PageHelmet from "../components/PageHemlet";
 
 interface Favorite {
   index: string;
@@ -43,19 +44,22 @@ const Favorites = () => {
 
   return (
     <>
+      <PageHelmet title="Favorites" />
       <Toaster position="top-right" />
-      <span className="text-3xl text-center flex justify-center items-center gap-10 font-mono">
+      <span className="text-3xl text-center flex items-center gap-10 font-mono">
         <FaLongArrowAltLeft
           onClick={goBack}
-          className="cursor-pointer text-blue-800"
+          className="cursor-pointer text-black hover:text-sky-200"
           size={36}
         />
-        Favorites List
+        <span className="text-center w-full">Favorites List</span>
       </span>
       {favorites.length === 0 ? (
-        <p className="mt-4 font-mono text-xl">Oops! No favorites list found.😭😭</p>
+        <p className="mt-4 font-mono text-xl">
+          Oops! No favorites list found.😭😭
+        </p>
       ) : (
-        <SimpleGrid columns={[1, 3, 4, 6]} spacing={6} marginTop={4}>
+        <SimpleGrid columns={[1, 3, 4, 6]} spacing={6} marginTop={8}>
           {favorites.map((favorite: Favorite) => {
             return (
               <div

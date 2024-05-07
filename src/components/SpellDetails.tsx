@@ -4,6 +4,7 @@ import { fetchSpellDetail } from "../api";
 import { Box, Spinner, Flex } from "@chakra-ui/react";
 import { FaLongArrowAltLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import PageHelmet from "./PageHemlet";
 
 interface Spell {
   name: string;
@@ -150,14 +151,15 @@ export default function SpellDetail() {
 
   return (
     <Box className="flex justify-center" fontFamily="monospace">
+      <PageHelmet title={spell?.name} />
       <div className="text-center shadow-2xl p-3 rounded-md flex flex-col max-w-[600px]">
         <span className="text-3xl font-extrabold">
           <FaLongArrowAltLeft
             onClick={goBack}
-            className="cursor-pointer text-blue-800"
+            className="cursor-pointer text-black hover:text-sky-200"
             size={36}
           />
-          {spell.name} {randomEmoji}
+          {spell?.name} {randomEmoji}
         </span>
         <p className="border shadow-xl rounded-md p-2 mb-2 font-semibold">
           <strong className="text-amber-500">Description:</strong>{" "}

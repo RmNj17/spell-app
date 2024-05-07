@@ -5,6 +5,7 @@ import { FaHeart } from "react-icons/fa";
 import { fetchSpells } from "../api";
 import { useEffect, useState, ChangeEvent } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import PageHelmet from "../components/PageHemlet";
 
 interface Spell {
   index: string;
@@ -60,6 +61,7 @@ export default function SpellList() {
 
   return (
     <Box>
+      <PageHelmet title="All Lists" />
       <Toaster position="top-right" />
       <div className="flex mb-4 justify-center gap-3 items-center lg:flex-row md:flex-row flex-col">
         <input
@@ -87,7 +89,9 @@ export default function SpellList() {
       ) : isError ? (
         <Text>Error fetching data</Text>
       ) : filteredSpells?.length === 0 ? (
-        <Text fontFamily="monospace" fontSize="xl">Oops! No search results found.😭😭</Text>
+        <Text fontFamily="monospace" fontSize="xl">
+          Oops! No search results found.😭😭
+        </Text>
       ) : (
         <SimpleGrid columns={[1, 3, 4, 6]} spacing={6}>
           {filteredSpells?.map((spell: Spell) => (
