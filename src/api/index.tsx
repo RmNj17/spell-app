@@ -3,7 +3,7 @@ import axios from "axios";
 const BASE_URL = "https://www.dnd5eapi.co/api";
 
 export async function fetchSpells(): Promise<
-  { index: string; name: string }[]
+  { index: string; name: string; level: string }[]
 > {
   try {
     const result = await axios.get(`${BASE_URL}/spells`);

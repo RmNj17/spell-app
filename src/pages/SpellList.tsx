@@ -3,39 +3,47 @@ import { Link } from "react-router-dom";
 import { SimpleGrid, Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
 import { FaHeart } from "react-icons/fa";
 import { fetchSpells } from "../api";
-import { useEffect, useState } from "react";
+import { useEffect, useState, ChangeEvent } from "react";
 import toast, { Toaster } from "react-hot-toast";
+
+interface Spell {
+  index: string;
+  name: string;
+  level: string;
+}
 
 export default function SpellList() {
   const {
     data: spells,
     isLoading,
     isError,
-  } = useQuery("spells", fetchSpells, {
+  } = useQuery<Spell[]>("spells", fetchSpells, {
     staleTime: Infinity,
   });
   const [searchQuery, setSearchQuery] = useState("");
-  const [favorites, setFavorites] = useState(() => {
+  const [favorites, setFavorites] = useState<Spell[]>(() => {
     const storedFavorites = localStorage.getItem("favorites");
     return storedFavorites ? JSON.parse(storedFavorites) : [];
   });
 
-  const filteredSpells = spells?.filter((spell) =>
-    spell?.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredSpells =
+    spells &&
+    spells.filter((spell) =>
+      spell.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
 
-  const handleFavoriteClick = (spell) => {
+  const handleFavoriteClick = (spell: Spell) => {
     const index = favorites.findIndex(
-      (favorite) => favorite?.index === spell.index
+      (favorite) => favorite.index === spell.index
     );
     if (index === -1) {
       toast.dismiss();
       toast.success("Added to the favorites list");
-      const newFavorites = [...favorites, { index: spell.index }];
+      const newFavorites = [...favorites, spell];
       setFavorites(newFavorites);
     } else {
       const newFavorites = [...favorites];
@@ -81,17 +89,17 @@ export default function SpellList() {
         <Text>No search results found</Text>
       ) : (
         <SimpleGrid columns={[1, 3, 4, 6]} spacing={6}>
-          {filteredSpells?.map((spell) => (
+          {filteredSpells?.map((spell: Spell) => (
             <div
               key={spell.index}
               className="p-3 hover:bg-black hover:text-white shadow-xl rounded-lg bg-sky-200 flex flex-col justify-center font-mono items-center gap-1"
             >
               <Link to={`/spell/${spell.index}`} className="w-full">
                 <Box fontSize="xl" fontWeight="semibold" textAlign="center">
-                  {spell?.name}
+                  {spell.name}
                 </Box>
                 <Box fontSize="sm" fontWeight="light" textAlign="center">
-                  Level:{spell?.level}
+                  Level: {spell.level}
                 </Box>
               </Link>
 
@@ -99,7 +107,7 @@ export default function SpellList() {
                 size={26}
                 className={`cursor-pointer ${
                   favorites.findIndex(
-                    (favorite) => favorite?.index === spell.index
+                    (favorite) => favorite.index === spell.index
                   ) !== -1 && "text-red-500"
                 }`}
                 onClick={() => handleFavoriteClick(spell)}

@@ -5,20 +5,42 @@ import { Box, Spinner, Flex } from "@chakra-ui/react";
 import { FaLongArrowAltLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
+interface Spell {
+  name: string;
+  desc: string[];
+  higher_level?: string[];
+  range: string;
+  components: string[];
+  material: string;
+  ritual: boolean;
+  duration: string;
+  concentration: boolean;
+  casting_time: string;
+  level: string;
+  attack_type?: string;
+  school?: { name: string };
+  classes: { name: string }[];
+  subclasses: { name: string }[];
+}
+
 export default function SpellDetail() {
   const navigate = useNavigate();
   const goBack = () => {
     navigate(-1);
   };
-  const { spellIndex } = useParams<{ spellIndex?: string }>();
+  const { spellIndex = "" } = useParams<{ spellIndex?: string }>();
   const {
     data: spell,
     isLoading,
     isError,
-  } = useQuery(["spell", spellIndex], () => fetchSpellDetail(spellIndex), {
-    enabled: !!spellIndex,
-    staleTime: Infinity,
-  });
+  } = useQuery<Spell>(
+    ["spell", spellIndex],
+    () => fetchSpellDetail(spellIndex),
+    {
+      enabled: !!spellIndex,
+      staleTime: Infinity,
+    }
+  );
 
   if (!spellIndex || isLoading) {
     return (
@@ -41,7 +63,7 @@ export default function SpellDetail() {
             className="cursor-pointer text-blue-800"
             size={36}
           />
-          {spell?.name}
+          {spell.name}
         </span>
         <p className="border shadow-xl rounded-md p-2 mb-2">
           <strong>Description:</strong> {spell?.desc.join("\n\n")}
@@ -67,8 +89,7 @@ export default function SpellDetail() {
             <strong>Duration:</strong> {spell?.duration}
           </p>
           <p>
-            <strong>Concentration:</strong>{" "}
-            {spell?.concentration ? "Yes" : "No"}
+            <strong>Concentration:</strong> {spell?.concentration ? "Yes" : "No"}
           </p>
           <p>
             <strong>Casting Time:</strong> {spell?.casting_time}
@@ -84,11 +105,11 @@ export default function SpellDetail() {
           </p>
           <p>
             <strong>Classes:</strong>{" "}
-            {spell?.classes.map((cls) => cls?.name).join(", ")}
+            {spell.classes.map((cls) => cls?.name).join(", ")}
           </p>
           <p>
             <strong>Subclasses:</strong>{" "}
-            {spell?.subclasses.map((subclass) => subclass?.name).join(", ")}
+            {spell.subclasses.map((subclass) => subclass?.name).join(", ")}
           </p>
         </div>
       </div>
