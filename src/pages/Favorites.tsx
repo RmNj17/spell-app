@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
-import { Box, SimpleGrid } from "@chakra-ui/react";
+import { Box, SimpleGrid, Tooltip } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaLongArrowAltLeft } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import toast, { Toaster } from "react-hot-toast";
 import PageHelmet from "../components/PageHemlet";
+import view from "../assets/view.png";
 
 interface Favorite {
   index: string;
@@ -67,20 +68,27 @@ const Favorites = () => {
                 className="p-3 hover:bg-black hover:text-white shadow-xl rounded-lg bg-sky-200 flex flex-col justify-center font-mono items-center gap-2"
               >
                 <li className="list-none" key={favorite.index}>
-                  <Link to={`/spell/${favorite.index}`}>
+                  <>
                     <Box fontSize="xl" fontWeight="semibold" textAlign="center">
                       {favorite.index}
                     </Box>
                     <Box fontSize="sm" fontWeight="light" textAlign="center">
                       Level: {favorite?.level}
                     </Box>
-                  </Link>
+                  </>
                 </li>
-                <MdDelete
-                  size={26}
-                  className="hover:text-red-800 text-red-500 cursor-pointer"
-                  onClick={() => handleDelete(favorite.index)}
-                />
+                <div className="flex gap-5 mt-1">
+                  <MdDelete
+                    size={26}
+                    className="hover:text-red-800 text-red-500 cursor-pointer"
+                    onClick={() => handleDelete(favorite.index)}
+                  />
+                  <Link to={`/spell/${favorite.index}`}>
+                    <Tooltip label="View more">
+                      <img src={view} width={24} />
+                    </Tooltip>
+                  </Link>
+                </div>
               </div>
             );
           })}
