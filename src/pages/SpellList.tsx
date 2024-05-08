@@ -1,12 +1,20 @@
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
-import { SimpleGrid, Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
+import {
+  SimpleGrid,
+  Box,
+  Button,
+  Flex,
+  Spinner,
+  Text,
+  Tooltip,
+} from "@chakra-ui/react";
 import { FaHeart } from "react-icons/fa";
 import { fetchSpells } from "../api";
 import { useEffect, useState, ChangeEvent } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import PageHelmet from "../components/PageHemlet";
-
+import view from "../assets/view.png";
 interface Spell {
   index: string;
   name: string;
@@ -99,24 +107,32 @@ export default function SpellList() {
               key={spell.index}
               className="p-3 hover:bg-black hover:text-white shadow-xl rounded-lg bg-sky-200 flex flex-col justify-center font-mono items-center gap-1"
             >
-              <Link to={`/spell/${spell.index}`} className="w-full">
+              <>
                 <Box fontSize="xl" fontWeight="semibold" textAlign="center">
                   {spell.name}
                 </Box>
                 <Box fontSize="sm" fontWeight="light" textAlign="center">
                   Level:{spell.level}
                 </Box>
-              </Link>
+              </>
 
-              <FaHeart
-                size={26}
-                className={`cursor-pointer ${
-                  favorites.findIndex(
-                    (favorite) => favorite.index === spell.index
-                  ) !== -1 && "text-red-500"
-                }`}
-                onClick={() => handleFavoriteClick(spell)}
-              />
+              <div className="flex gap-5">
+                <FaHeart
+                  size={26}
+                  className={`cursor-pointer ${
+                    favorites.findIndex(
+                      (favorite) => favorite.index === spell.index
+                    ) !== -1 && "text-red-500"
+                  }`}
+                  onClick={() => handleFavoriteClick(spell)}
+                />
+
+                <Link to={`/spell/${spell.index}`}>
+                  <Tooltip label="View more">
+                    <img src={view} width={24} />
+                  </Tooltip>
+                </Link>
+              </div>
             </div>
           ))}
         </SimpleGrid>
