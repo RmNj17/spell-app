@@ -116,7 +116,7 @@ export default function SpellList() {
                 </Box>
               </>
 
-              <div className="flex gap-5">
+              <div className="flex gap-5 mt-1">
                 <FaHeart
                   size={26}
                   className={`cursor-pointer ${
