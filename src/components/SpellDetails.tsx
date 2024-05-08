@@ -165,7 +165,7 @@ export default function SpellDetail() {
           <strong className="text-amber-500">Description:</strong>{" "}
           {spell?.desc.join("\n\n")}
         </p>
-        <div className="shadow-xl rounded-2xl bg-black text-white font-medium px-8 w-fit mx-auto ">
+        <div className="shadow-xl rounded-2xl bg-black text-white font-medium px-8 w-fit mx-auto py-2">
           <p>
             <strong className="text-amber-500">Higher Levels:</strong>{" "}
             {spell?.higher_level?.join("\n\n") || "N/A"}
